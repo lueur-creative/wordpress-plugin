@@ -9,3 +9,4 @@ if (! defined('ABSPATH')) {
   exit;
 }
 
+require_once "tweaks/0-add-product-image-notice.php";
