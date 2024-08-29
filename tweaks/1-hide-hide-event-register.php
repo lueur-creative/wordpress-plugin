@@ -20,15 +20,16 @@ function your_child_theme_registration_disable()
 
 add_filter('display_event_registration_method', 'your_child_theme_registration_disable', 90, 2);
 add_filter('get_event_registration_method', 'your_child_theme_registration_disable', 90, 2);
-  
-/* add_filter( 'submit_event_form_fields', 'show_hide_registration_button' );
-function show_hide_registration_button( $fields) {  
-      
-    $fields['event']['show_hide_registration_button'] =  array(
-                                        'label'       => __( 'Show Hide Registration Button', 'wp-event-manager-registrations' ),
-                                        'type'        => 'checkbox',
-                                        'required'    => false,
-                                        'priority'    => 22,
-                                   );
-    return $fields;
-} */
+
+
+/** Cacher l'alerte de la page d'accueil si aucun événement est trouvé */
+
+add_action('wp_head', function () {
+?>
+  <style>
+    .no_event_listings_found {
+      display: none;
+    }
+  </style>
+<?php
+}, 100);
