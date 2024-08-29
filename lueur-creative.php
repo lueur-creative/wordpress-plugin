@@ -12,3 +12,4 @@ if (! defined('ABSPATH')) {
 require_once "tweaks/0-add-product-image-notice.php";
 require_once "tweaks/1-hide-hide-event-register.php";
 require_once "tweaks/2-use-event-date-as-expiration.php";
+require_once "tweaks/3-add-sents-tab.php";
