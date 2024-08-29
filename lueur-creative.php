@@ -10,3 +10,4 @@ if (! defined('ABSPATH')) {
 }
 
 require_once "tweaks/0-add-product-image-notice.php";
+require_once "tweaks/1-hide-hide-event-register.php";
