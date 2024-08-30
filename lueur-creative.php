@@ -16,3 +16,4 @@ require_once "tweaks/3-add-sents-tab.php";
 require_once "tweaks/4-add-security-infos.php";
 require_once "tweaks/5-allow-on-product-cat.php";
 require_once "tweaks/6-make-product-image-square.php";
+require_once "tweaks/7-add-metabox-product-duration.php";

@@ -51,8 +51,6 @@ function create_sents_taxonomies()
 
 
 
-add_filter('woocommerce_product_tabs', 'add_product_sents_tab', 50);
-
 function add_product_sents_tab($tabs)
 {
   global $product;
@@ -68,6 +66,7 @@ function add_product_sents_tab($tabs)
 
   return $tabs;
 }
+add_filter('woocommerce_product_tabs', 'add_product_sents_tab', 50);
 
 function add_product_sents_tab_content()
 {
