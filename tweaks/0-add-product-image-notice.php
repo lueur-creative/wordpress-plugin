@@ -4,11 +4,19 @@
  * Ajout d'un texte au dessous de l'image pour informer l'utilisateur que les photos ne sont pas contractuelles
  */
 
-add_action("woocommerce_product_thumbnails", function () {
+add_action("wp_head", function () {
 ?>
-  <div style="font-style:italic;font-size:small;">
-    <div><i>Photos non contractuelles</i></div>
-    <div><i>S’agissant de modèles uniques, les couleurs et les rendus peuvent légèrement varier d’une bougie à l’autre</i></div>
-  </div>
+  <style>
+    .woocommerce-product-gallery::after {
+      content: "Photos non contractuelles : S’agissant de modèles uniques, les couleurs et les rendus peuvent légèrement varier d’une bougie à l’autre";
+      font-style: italic;
+      font-size: small;
+    }
+
+    .woocommerce-product-gallery {
+      line-height: .75em;
+    }
+  </style>
+
 <?php
 }, 10);
