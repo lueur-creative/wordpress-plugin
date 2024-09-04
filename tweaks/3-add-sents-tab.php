@@ -62,7 +62,7 @@ function create_sents_taxonomies()
       "rewrite" => ["slug" => "note-$sents_type_slug"]
     );
 
-    register_taxonomy("sent_$sents_type_slug", array('product'), $args);
+    register_taxonomy("$sents_type_slug", array('product'), $args);
   }
 }
 
