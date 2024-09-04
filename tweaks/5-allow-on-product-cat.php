@@ -4,7 +4,7 @@
 
 function checktoradio()
 {
-  if (!get_post_type() !== "product") {
+  if (get_post_type() !== "product") {
     return;
   }
 
