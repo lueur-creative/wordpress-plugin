@@ -63,37 +63,50 @@ add_action('save_post', 'enregistrer_metabox_cire_et_duree');
 
 /** 3 - Afficher les informations sur la fiche du produit */
 
-function add_product_combustion_duration_tab($tabs)
+function display_wax_infos()
 {
   /** @var WC_Product $product */
   global $product;
 
-  $poids_cire = $product->get_attribute("pa_quantite-cire");
-  $duree_combustion = $product->get_attribute("pa_duree-combustion");
-
-  if ($poids_cire || $duree_combustion) {
-    $tabs['wax'] = array(
-      'title' => "Durée d'utilisation",
-      'priority' => 15, // TAB SORTING (DESC 10, ADD INFO 20, REVIEWS 30)
-      'callback' => 'add_product_combustion_duration_tab_content', // TAB CONTENT CALLBACK
-    );
+  if ($product->is_type('variable')) {
+    return;
   }
 
-  return $tabs;
+  $wax_variation = $product->get_attribute("pa_wax-infos");
+?>
+  <form class="cart">
+    <table class="variations" cellspacing="0" role="presentation">
+      <tbody>
+        <tr>
+          <th class="label" style="line-height: 1rem;margin-bottom: 0;"><label for=" pa_wax-infos">Poids de la bougie</label></th>
+          <td class="value">
+            <?php
+            if (strpos($wax_variation, "/")) {
+              [$wax_quantity, $wax_duration] = explode("/", $wax_variation);
+
+              if ($wax_quantity) {
+                if ($wax_duration) {
+                  echo "$wax_quantity de cire (soit environ $wax_duration d'utilisation)";
+                } else {
+                  echo "$wax_quantity de cire";
+                }
+              } elseif ($wax_duration) {
+                echo "Environ $wax_duration d'utilisation";
+              } else {
+                echo $wax_variation;
+              }
+            } else {
+              echo $wax_variation;
+            }
+            ?>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+<?php
 }
-add_filter('woocommerce_product_tabs', 'add_product_combustion_duration_tab', 50);
-
-
-function add_product_combustion_duration_tab_content()
-{
-  /** @var WC_Product $product */
-  global $product;
-
-  $poids_cire = $product->get_attribute("pa_quantite-cire");
-  $duree_combustion = $product->get_attribute("pa_duree-combustion");
-
-  echo "La bougie contient <b>$poids_cire</b> de cire soit <b>± $duree_combustion</b> d'utilisation";
-}
+add_filter('woocommerce_before_add_to_cart_form', 'display_wax_infos');
 
 /** 4 - Cacher les attributs du front */
 /**
@@ -104,10 +117,36 @@ function add_product_combustion_duration_tab_content()
 add_action('wp_head', function () {
 ?>
   <style>
-    .woocommerce-product-attributes-item--attribute_pa_quantite-cire,
-    .woocommerce-product-attributes-item--attribute_pa_duree-combustion {
+    .woocommerce-product-attributes-item--attribute_pa_wax-infos {
       display: none;
     }
   </style>
 <?php
 }, 100);
+
+/** 5 - Personnaliser le dropdown */
+
+function customizing_variations_terms_name($term_name, WP_Term $term, $b, $c)
+{
+  if (is_admin())
+    return $term_name;
+
+  if ($term->taxonomy === "pa_wax-infos") {
+    if (strpos($term_name, "/")) {
+      [$wax_quantity, $wax_duration] = explode("/", $term_name);
+
+      if ($wax_quantity) {
+        if ($wax_duration) {
+          return "$wax_quantity (soit environ $wax_duration)";
+        } else {
+          return $wax_quantity;
+        }
+      } elseif ($wax_duration) {
+        return "Environ $wax_duration";
+      }
+    }
+  }
+
+  return $term_name;
+}
+add_filter('woocommerce_variation_option_name', 'customizing_variations_terms_name', 10, 4);
