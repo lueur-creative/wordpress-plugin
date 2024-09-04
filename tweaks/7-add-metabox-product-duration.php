@@ -2,6 +2,20 @@
 
 /** Crée une metabox pour ajouter les informations concernant le poids en cire de la bougie et la durée de combustion */
 
+/** 1 - Créer les attributs */
+
+require_once __DIR__ . "/../lib/create-attributes.php";
+
+function product_duration_create_wc_attribute_on_init()
+{
+  // Vérifiez si WooCommerce est actif avant d'exécuter le code
+  if (class_exists('WooCommerce')) {
+    // Assurez-vous que l'attribut est créé si nécessaire
+    ensure_attribute_exists("wax-infos", "Poids de la bougie");
+  }
+}
+add_action('woocommerce_init', 'product_duration_create_wc_attribute_on_init');
+
 /** 1 - Ajouter la metabox */
 
 function ajouter_metabox_cire_et_duree()
@@ -109,10 +123,6 @@ function display_wax_infos()
 add_filter('woocommerce_before_add_to_cart_form', 'display_wax_infos');
 
 /** 4 - Cacher les attributs du front */
-/**
- * Add color styling from settings
- * Inserted with an enqueued CSS file
- */
 
 add_action('wp_head', function () {
 ?>
