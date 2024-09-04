@@ -65,10 +65,11 @@ add_action('save_post', 'enregistrer_metabox_cire_et_duree');
 
 function add_product_combustion_duration_tab($tabs)
 {
+  /** @var WC_Product $product */
   global $product;
 
-  $poids_cire = get_post_meta($product->get_id(), '_poids_cire', true);
-  $duree_combustion = get_post_meta($product->get_id(), '_duree_combustion', true);
+  $poids_cire = $product->get_attribute("pa_quantite-cire");
+  $duree_combustion = $product->get_attribute("pa_duree-combustion");
 
   if ($poids_cire || $duree_combustion) {
     $tabs['wax'] = array(
@@ -82,12 +83,31 @@ function add_product_combustion_duration_tab($tabs)
 }
 add_filter('woocommerce_product_tabs', 'add_product_combustion_duration_tab', 50);
 
+
 function add_product_combustion_duration_tab_content()
 {
+  /** @var WC_Product $product */
   global $product;
 
-  $poids_cire = get_post_meta($product->get_id(), '_poids_cire', true);
-  $duree_combustion = get_post_meta($product->get_id(), '_duree_combustion', true);
+  $poids_cire = $product->get_attribute("pa_quantite-cire");
+  $duree_combustion = $product->get_attribute("pa_duree-combustion");
 
-  echo "La bougie contient <b>$poids_cire grammes</b> de cire soit <b>± $duree_combustion heures</b> d'utilisation";
+  echo "La bougie contient <b>$poids_cire</b> de cire soit <b>± $duree_combustion</b> d'utilisation";
 }
+
+/** 4 - Cacher les attributs du front */
+/**
+ * Add color styling from settings
+ * Inserted with an enqueued CSS file
+ */
+
+add_action('wp_head', function () {
+?>
+  <style>
+    .woocommerce-product-attributes-item--attribute_pa_quantite-cire,
+    .woocommerce-product-attributes-item--attribute_pa_duree-combustion {
+      display: none;
+    }
+  </style>
+<?php
+}, 100);
