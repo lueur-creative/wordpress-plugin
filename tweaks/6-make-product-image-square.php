@@ -8,7 +8,7 @@
 add_action('wp_head', function () {
 ?>
   <style>
-    .woocommerce-product-gallery__image.flex-active-slide>a>img,
+    .woocommerce-product-gallery__image img,
     .attachment-woocommerce_thumbnail.size-woocommerce_thumbnail {
       aspect-ratio: 1/1;
       object-fit: cover;
