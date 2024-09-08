@@ -4,8 +4,6 @@
 
 /** 1 - Créer les attributs */
 
-require_once __DIR__ . "/../lib/create-attributes.php";
-
 function product_duration_create_wc_attribute_on_init()
 {
   // Vérifiez si WooCommerce est actif avant d'exécuter le code

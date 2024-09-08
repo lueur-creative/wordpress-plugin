@@ -9,8 +9,6 @@ function get_sents_types()
 
 /** 1 - Créer les attributs */
 
-require_once __DIR__ . "/../lib/create-attributes.php";
-
 function sents_create_wc_attribute_on_init()
 {
   // Vérifiez si WooCommerce est actif avant d'exécuter le code
