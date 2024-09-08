@@ -5,11 +5,19 @@
 /** 1 - Ajouter un champ WYSIWYG dans les catégories produit */
 
 // Ajouter le champ WYSIWYG dans le formulaire d'édition des catégories
+/**
+ * @param WP_Term $term
+ */
 function ajouter_champ_wysiwyg_dans_categories($term)
 {
   // Récupérer la valeur sauvegardée
   $use = get_term_meta($term->term_id, 'category_use', true);
+  $parent_use =
+    get_term_meta($term->parent, 'category_use', true);
   $security = get_term_meta($term->term_id, 'category_security', true);
+  $parent_security =
+    get_term_meta($term->parent, 'category_security', true);
+  $parent_term = get_term_by("id", $term->parent, "product_cat");
 
   // Afficher le champ WYSIWYG
 ?>
@@ -19,6 +27,17 @@ function ajouter_champ_wysiwyg_dans_categories($term)
     </th>
     <td>
       <?php
+      if ($parent_use && strlen($parent_use) > 0) {
+      ?>
+        <div class="notice notice-info inline">
+          <h4 style="margin-bottom: 0;">Hérité de la catégorie parente <b>"<?= $parent_term->name ?>"</b></h4>
+          <div class="description" style="margin-bottom: 1em;"><em>S'affiche avant les informations de cette catégorie</em></div>
+          <div style="margin-bottom: 1em;"><?= $parent_use ?></div>
+          <div style="margin-bottom: 1em;"><a href="<?= get_edit_term_link($parent_term) ?>">Modifier</a></div>
+        </div>
+      <?php
+      }
+
       wp_editor($use, 'category_use', array(
         'textarea_name' => 'category_use',
         'media_buttons' => false,
@@ -37,6 +56,17 @@ function ajouter_champ_wysiwyg_dans_categories($term)
     </th>
     <td>
       <?php
+      if ($parent_security && strlen($parent_security) > 0) {
+      ?>
+        <div class="notice notice-info inline">
+          <h4 style="margin-bottom: 0;">Hérité de la catégorie parente <b>"<?= $parent_term->name ?>"</b></h4>
+          <div class="description" style="margin-bottom: 1em;"><em>S'affiche avant les informations de cette catégorie</em></div>
+          <div style="margin-bottom: 1em;"><?= $parent_security ?></div>
+          <div style="margin-bottom: 1em;"><a href="<?= get_edit_term_link($parent_term) ?>">Modifier</a></div>
+        </div>
+      <?php
+      }
+
       wp_editor($security, 'category_security', array(
         'textarea_name' => 'category_security',
         'media_buttons' => false,
