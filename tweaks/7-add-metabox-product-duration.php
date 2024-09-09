@@ -26,6 +26,11 @@ function display_wax_infos()
   }
 
   $wax_variation = $product->get_attribute("pa_wax-infos");
+
+  if (!$wax_variation || strlen($wax_variation === 0)) {
+    return;
+  }
+
   $weight_suffix =
     str_contains(wc_get_product_category_list($product->get_id()), "bougie") || str_contains(wc_get_product_category_list($product->get_id()), "fondant") ? " de cire" : "";
 ?>
