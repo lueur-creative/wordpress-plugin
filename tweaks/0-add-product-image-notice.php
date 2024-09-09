@@ -8,7 +8,7 @@ add_action("wp_head", function () {
 ?>
   <style>
     .woocommerce-product-gallery::after {
-      content: "Photos non contractuelles : S’agissant de modèles uniques, les couleurs et les rendus peuvent légèrement varier d’une bougie à l’autre";
+      content: "Photos non contractuelles : S’agissant de modèles uniques, les couleurs et les rendus peuvent légèrement varier";
       font-style: italic;
       font-size: small;
     }
