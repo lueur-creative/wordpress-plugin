@@ -82,7 +82,7 @@ add_action('wp_head', function () {
 
 /** 4 - Personnaliser le dropdown */
 
-function customizing_variations_terms_name($term_name, WP_Term $term, $b, $c)
+function customizing_variations_terms_name($term_name, WP_Term | null $term)
 {
   /** @var WC_Product $product */
   global $product;
@@ -93,7 +93,7 @@ function customizing_variations_terms_name($term_name, WP_Term $term, $b, $c)
   $weight_suffix =
     str_contains(wc_get_product_category_list($product->get_id()), "bougie") || str_contains(wc_get_product_category_list($product->get_id()), "fondant") ? " de cire" : "";
 
-  if ($term->taxonomy === "pa_wax-infos") {
+  if ($term && $term->taxonomy === "pa_wax-infos") {
     if (strpos($term_name, "/")) {
       [$wax_quantity, $wax_duration] = explode("/", $term_name);
 
