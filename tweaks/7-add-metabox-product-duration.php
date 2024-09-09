@@ -9,7 +9,7 @@ function product_duration_create_wc_attribute_on_init()
   // Vérifiez si WooCommerce est actif avant d'exécuter le code
   if (class_exists('WooCommerce')) {
     // Assurez-vous que l'attribut est créé si nécessaire
-    ensure_attribute_exists("wax-infos", "Poids de la bougie");
+    ensure_attribute_exists("wax-infos", "Poids");
   }
 }
 add_action('woocommerce_init', 'product_duration_create_wc_attribute_on_init');
@@ -26,12 +26,14 @@ function display_wax_infos()
   }
 
   $wax_variation = $product->get_attribute("pa_wax-infos");
+  $weight_suffix =
+    str_contains(wc_get_product_category_list($product->get_id()), "bougie") || str_contains(wc_get_product_category_list($product->get_id()), "fondant") ? " de cire" : "";
 ?>
   <form class="cart">
     <table class="variations" cellspacing="0" role="presentation">
       <tbody>
         <tr>
-          <th class="label" style="line-height: 1rem;margin-bottom: 0;"><label for=" pa_wax-infos">Poids de la bougie</label></th>
+          <th class="label" style="line-height: 1rem;margin-bottom: 0;"><label for=" pa_wax-infos">Poids</label></th>
           <td class="value">
             <?php
             if (strpos($wax_variation, "/")) {
@@ -39,9 +41,9 @@ function display_wax_infos()
 
               if ($wax_quantity) {
                 if ($wax_duration) {
-                  echo "$wax_quantity de cire (soit environ $wax_duration d'utilisation)";
+                  echo "$wax_quantity$weight_suffix (soit environ $wax_duration d'utilisation)";
                 } else {
-                  echo "$wax_quantity de cire";
+                  echo "$wax_quantity$weight_suffix";
                 }
               } elseif ($wax_duration) {
                 echo "Environ $wax_duration d'utilisation";
@@ -77,8 +79,14 @@ add_action('wp_head', function () {
 
 function customizing_variations_terms_name($term_name, WP_Term $term, $b, $c)
 {
+  /** @var WC_Product $product */
+  global $product;
+
   if (is_admin())
     return $term_name;
+
+  $weight_suffix =
+    str_contains(wc_get_product_category_list($product->get_id()), "bougie") || str_contains(wc_get_product_category_list($product->get_id()), "fondant") ? " de cire" : "";
 
   if ($term->taxonomy === "pa_wax-infos") {
     if (strpos($term_name, "/")) {
@@ -86,9 +94,9 @@ function customizing_variations_terms_name($term_name, WP_Term $term, $b, $c)
 
       if ($wax_quantity) {
         if ($wax_duration) {
-          return "$wax_quantity (soit environ $wax_duration)";
+          return "$wax_quantity$weight_suffix (soit environ $wax_duration)";
         } else {
-          return $wax_quantity;
+          return $wax_quantity . $weight_suffix;
         }
       } elseif ($wax_duration) {
         return "Environ $wax_duration";
