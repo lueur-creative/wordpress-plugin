@@ -37,7 +37,7 @@ function lueurcreative_register_required_plugins()
     ],
     [
       'name'      => 'LiteSpeed Cache',
-      'slug'      => 'lightspeed-cache',
+      'slug'      => 'litespeed-cache',
     ],
     [
       'name'      => 'MailPoet',
