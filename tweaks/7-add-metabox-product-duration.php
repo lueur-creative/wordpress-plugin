@@ -90,6 +90,10 @@ function customizing_variations_terms_name($term_name, WP_Term | null $term)
   if (is_admin())
     return $term_name;
 
+  if (!$product) {
+    return $term_name;
+  }
+
   $weight_suffix =
     str_contains(wc_get_product_category_list($product->get_id()), "bougie") || str_contains(wc_get_product_category_list($product->get_id()), "fondant") ? " de cire" : "";
 
