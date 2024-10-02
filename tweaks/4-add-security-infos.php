@@ -140,14 +140,14 @@ add_action("woocommerce_after_single_product_summary", function () {
     <?php
     if (count($use) > 0) {
       echo "<h2>Conseils d'utilisation</h2>";
-      echo join("", $use);
+      echo nl2br(join("", $use));
     } ?>
   </div>
   <div style="margin-bottom:4em;">
     <?php
     if (count($security) > 0) {
       echo  "<h2>Conseils de sécurité</h2>";
-      echo join("", $security);
+      echo nl2br(join("", $security));
     }
     ?>
   </div>
