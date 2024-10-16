@@ -32,3 +32,4 @@ require_once LUEURCREATIVE_BASE_PATH . "tweaks/6-make-product-image-square.php";
 require_once LUEURCREATIVE_BASE_PATH . "tweaks/7-add-metabox-product-duration.php";
 require_once LUEURCREATIVE_BASE_PATH . "tweaks/8-add-dashboard-metabox.php";
 require_once LUEURCREATIVE_BASE_PATH . "tweaks/9-pickup-work-hours-email-translation.php";
+require_once LUEURCREATIVE_BASE_PATH . "tweaks/10-colissimo-pickup.php";
